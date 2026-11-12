@@ -1,0 +1,7 @@
+[
+  { "id": 1, "modelo": "Regresión Lineal", "precision": 0.88, "perdida": 0.24, "registros": 1200, "estado": "Completado" },
+  { "id": 2, "modelo": "Árbol de Decisión", "precision": 0.91, "perdida": 0.18, "registros": 1200, "estado": "Completado" },
+  { "id": 3, "modelo": "Random Forest", "precision": 0.96, "perdida": 0.08, "registros": 1500, "estado": "Completado" },
+  { "id": 4, "modelo": "Red Neuronal (MLP)", "precision": 0.94, "perdida": 0.11, "registros": 2000, "estado": "Completado" },
+  { "id": 5, "modelo": "SVM (RBF Kernel)", "precision": 0.89, "perdida": 0.21, "registros": 1100, "estado": "Optimización" }
+]
