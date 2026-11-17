@@ -105,3 +105,35 @@ export const obtenerSerieDeTiempo = async (filtros = {}) => {
     }
   };
 };
+
+// --- FUNCIÓN DE MAPEO PARA GRÁFICOS D3.js (PRÁCTICA 3.5) ---
+export const formatearParaGrafico = (datosCrudos = []) => {
+  if (!Array.isArray(datosCrudos) || datosCrudos.length === 0) {
+    return {
+      labels: [],
+      values: [],
+      humedadValues: [],
+      puntos: []
+    };
+  }
+
+  const labels = datosCrudos.map((item) => item.horaCorta || item.modelo);
+  const values = datosCrudos.map((item) => Number(item.temperaturaNumerica) || 0);
+  const humedadValues = datosCrudos.map((item) =>
+    parseFloat(String(item.perdidaFormateada).replace('%', '').trim()) || 0
+  );
+
+  const puntos = datosCrudos.map((item, idx) => ({
+    label: labels[idx],
+    value: values[idx],
+    humedad: humedadValues[idx],
+    estado: item.estado
+  }));
+
+  return {
+    labels,
+    values,
+    humedadValues,
+    puntos
+  };
+};

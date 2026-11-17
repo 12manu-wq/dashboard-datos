@@ -53,3 +53,9 @@
     border-bottom: 1px solid #e2e8f0;
   }
 }
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+}

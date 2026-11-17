@@ -3,12 +3,12 @@ import Navbar from './components/Navbar';
 import DashboardLayout from './components/DashboardLayout';
 import PanelFiltros from './components/PanelFiltros';
 import TarjetaMetrica from './components/TarjetaMetrica';
-import GraficoBarras from './components/GraficoBarras';
+import GraficoTendencia from './components/charts/GraficoTendencia';
+import GraficoComparativo from './components/charts/GraficoComparativo';
 import TablaDatos from './components/TablaDatos';
-import { obtenerSerieDeTiempo } from './services/dataService';
+import { obtenerSerieDeTiempo, formatearParaGrafico } from './services/dataService';
 
 function App() {
-  // Estado global de filtros compartido entre componentes
   const [filtros, setFiltros] = useState({
     region: '19.2647,-98.8975',
     fecha: '',
@@ -22,7 +22,6 @@ function App() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  // useEffect que escucha cualquier cambio en el objeto "filtros"
   useEffect(() => {
     let activo = true;
 
@@ -52,6 +51,9 @@ function App() {
     };
   }, [filtros]);
 
+  // Transformación de datos crudos para los componentes D3.js
+  const datosGraficos = formatearParaGrafico(datos.registros);
+
   return (
     <DashboardLayout
       header={<Navbar />}
@@ -59,10 +61,10 @@ function App() {
     >
       <div>
         <h2 style={{ color: '#0f172a', fontSize: '1.5rem', marginBottom: '0.25rem' }}>
-          Dashboard Interactivo de Monitoreo Ambiental
+          Dashboard Interactivo con Visualización Avanzada (D3.js)
         </h2>
         <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-          Maquetación con CSS Grid responsivo y sincronización reactiva mediante filtros globales.
+          Gráficos SVG responsivos sincronizados en tiempo real con el panel de filtros globales.
         </p>
       </div>
 
@@ -81,7 +83,7 @@ function App() {
         </div>
       )}
 
-      {/* Fila superior de cuadrícula: Tarjetas de Métricas */}
+      {/* Fila superior: Tarjetas de Métricas */}
       <div className="metrics-grid">
         <TarjetaMetrica
           titulo="Muestras Filtradas"
@@ -100,8 +102,11 @@ function App() {
         />
       </div>
 
-      {/* Sección central: Gráfico sincronizado */}
-      <GraficoBarras dataset={datos.registros} />
+      {/* Sección central: Dos gráficos D3.js sincronizados */}
+      <div className="charts-grid">
+        <GraficoTendencia datosGrafico={datosGraficos} />
+        <GraficoComparativo datosGrafico={datosGraficos} />
+      </div>
 
       {/* Sección inferior: Tabla de detalles */}
       <TablaDatos dataset={datos.registros} />
